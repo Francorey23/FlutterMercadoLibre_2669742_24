@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mercado_proy/src/screens/01_ModalUsers.dart';
 
-
 class AdminUsers extends StatefulWidget {
   const AdminUsers({super.key});
 
@@ -17,7 +16,9 @@ class _AdminUsersState extends State<AdminUsers> {
         backgroundColor: Colors.lightBlue[400],
         foregroundColor: Colors.white,
         leading: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/principal');
+            },
             icon: Icon(Icons.arrow_back, color: Colors.white)),
         title: Text(
           "Administrar usuarios",
@@ -47,7 +48,7 @@ class _AdminUsersState extends State<AdminUsers> {
               leading: Icon(Icons.connect_without_contact_rounded),
               trailing: Icon(Icons.arrow_circle_right_outlined),
               onTap: () {
-               ModalUsuario(context);
+                ModalConsultarUsuarios(context);
               },
             ),
           ),

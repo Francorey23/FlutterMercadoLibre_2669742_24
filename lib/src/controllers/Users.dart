@@ -1,6 +1,48 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+
+// Inicio de sesión usuario
+
+ /*  Future<http.Response> _sendLoginRequest(String email, String password) async {
+    return await http.post(
+      Uri.parse("https://apirestnodeexpressmongodb.onrender.com/auth/login"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "email": email,
+        "password": password,
+      }),
+    );
+  } */
+
+ import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+Future<http.Response> sendLoginRequest(String email, String password) async {
+  try {
+    final response = await http.post(
+      Uri.parse("https://apirestnodeexpressmongodb.onrender.com/auth/login"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "email": email,
+        "password": password,
+      }),
+    );
+
+    return response;
+  } catch (e) {
+    // Maneja el error de red o cualquier otro error
+    print("Error durante la solicitud de inicio de sesión: $e");
+    return http.Response('{"error": "Error en la solicitud"}', 500);
+  }
+}
+
+
+
 //1. Registrar usuarios
 
 Future<Users> createUsers(String name, String email, String password) async {
@@ -30,6 +72,7 @@ class Users {
     required this.name,
     required this.email,
   }): _id = id;
+  
 //metodo utilizado para limpiar los objetos
   Users.empty()
       : _id = '',
@@ -76,5 +119,25 @@ Future<Users> deleteUsers(String id) async {
     return Users.empty();
   } else {
     throw Exception('Failed to delete album.');
+  }
+}
+
+//4. Actualizar un usuario
+Future<Users> updateUser(String id, String name, String email) async {
+  final response = await http.put(
+    Uri.parse('https://apirestnodeexpressmongodb.onrender.com/api/users/$id'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      "name": name,
+      "email": email,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    return Users.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+  } else {
+    throw Exception('Failed to update user');
   }
 }

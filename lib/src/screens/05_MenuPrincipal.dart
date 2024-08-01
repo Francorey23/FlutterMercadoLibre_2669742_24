@@ -64,8 +64,10 @@ class _MenuPrincipalState extends State<MenuPrincipal> {
                   icon: Icon(Icons.favorite_border),
                 ),
                 IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.notification_add),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/AdminUsers');
+                  },
+                  icon: Icon(Icons.connect_without_contact_rounded),
                 ),
               ],
             ),
